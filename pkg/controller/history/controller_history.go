@@ -63,7 +63,6 @@ func ControllerRevisionName(prefix string, hash uint32) string {
 func NewControllerRevision(parent metav1.Object,
 	parentKind schema.GroupVersionKind,
 	podLabels map[string]string,
-	selector labels.Selector,
 	data runtime.RawExtension,
 	revision int64,
 	collisionCount *int32) (*apps.ControllerRevision, error) {
@@ -221,7 +220,7 @@ type realHistory struct {
 
 func (rh *realHistory) ListControllerRevisions(parent metav1.Object, selector labels.Selector) ([]*apps.ControllerRevision, error) {
 	// List all revisions in the namespace that match the selector
-	history, err := rh.lister.ControllerRevisions(parent.GetNamespace()).List(selector)
+	history, err := rh.lister.ControllerRevisions(parent.GetNamespace()).List(selector)   
 	if err != nil {
 		return nil, err
 	}
