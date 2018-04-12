@@ -65,6 +65,11 @@ func (v *Vendorer) findOpenAPI(root string) ([]string, error) {
 	for _, finfo := range finfos {
 		path := filepath.Join(root, finfo.Name())
 		if finfo.IsDir() && (finfo.Mode()&os.ModeSymlink == 0) {
+			for _, r := range v.skippedPaths {
+				if r.MatchString(path) {
+					continue
+				}
+			}
 			children, err := v.findOpenAPI(path)
 			if err != nil {
 				return nil, err
